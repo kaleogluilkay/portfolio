@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceren Kaleoğlu - Portföy</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Lato&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+    <div class="logo">Ceren Kaleoğlu
+        <span class="social-icons">
+            <a href="https://github.com/kaleogluilkay" target="_blank" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/kaleogluceren" target="_blank" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a href="https://www.instagram.com/kaleogluilkay" target="_blank" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com/kaleogluceren" target="_blank" aria-label="X (Twitter)">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+        </span>
+    </div>
+    <div class="hamburger">&#9776;</div>
+    <ul class="menu">
+        <li><a href="#about">Hakkımda</a></li>
+        <li><a href="#projects">Projeler</a></li>
+        <li><a href="#certificates">Sertifikalarım</a></li>
+        <li><a href="#contact">İletişim</a></li>
+        <button id="theme-toggle" class="theme-toggle">🌙</button>
+    </ul>
+    
+
+</nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Merhaba, <br> ben Ceren Kaleoğlu</h1>
+            <p>Software Developer | Web ve Yazılım Projeleri</p>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/profil.jpg' %}" alt="Profil Fotoğrafı">
+        </div>
+    </section>
+
+
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>Hakkımda</h2>
+        <p class="about-text">
+            Merhaba! Ben <strong> Ceren Kaleoğlu </strong>, yazılım geliştirme dünyasında kendini sürekli geliştiren bir geliştiriciyim.
+            Özellikle <strong> web geliştirme </strong> alanında HTML, CSS, JavaScript, Python ve Django gibi teknolojilerle projeler üretiyor, kullanıcı dostu ve modern arayüzler tasarlamaya odaklanıyorum. <br>
+ 
+            Teknolojiye olan ilgim, sürekli öğrenme isteğimle birleşerek beni yeni araçlar ve yöntemler keşfetmeye yönlendiriyor. Şu anda portföyümü zenginleştirmek için çeşitli web projeleri geliştiriyor ve yazılım alanındaki yetkinliklerimi artırıyorum. <br>
+
+            Boş zamanlarımda yeni teknolojiler hakkında araştırma yapıyor, yazılım dünyasındaki gelişmeleri takip ediyor ve kendimi daha ileriye taşımak için düzenli olarak çalışıyorum.
+            Hedefim, edindiğim bilgileri yaratıcı projelere dönüştürerek hem kendime hem de çalıştığım ekiplere değer katmak.
+        </p>
+    </section>
+
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2>Projelerim</h2>
+        <div class="project-cards">
+            {% for project in projects %}
+            <div class="card fade-in"
+                 data-title="{{ project.title }}"
+                 data-desc="{{ project.description }}"
+                 data-img="{{ project.image.url }}"
+                 data-link="{{ project.link|default:'' }}"
+                 data-type="project">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                <a href="{{ project.link|default:'#' }}" target="_blank">GitHub / Live</a>
+            </div>
+            {% endfor %}
+<!-- 
+            <div class="card fade-in">
+                <img src="images/proje2.jpg" alt="Proje 2">
+                <div class="card-content">
+                    <h3>Proje Başlığı 2</h3>
+                    <p>Kısa açıklama burada olacak. Web geliştirme ve kullanıcı deneyimi odaklı bir proje.</p>
+                    <a href="#" target="_blank">GitHub / Live</a>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    <!-- Modal -->
+<div id="projectModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img id="modal-img" src="images/proje1.png" alt="">
+        <h3 id="modal-title"></h3>
+        <p id="modal-desc"></p>
+        <a id="modal-link" href="" target="_blank">GitHub / Live</a>
+        <p id="modal-no-link" style="display:none; color:#555; margin-top:10px;">Bu sertifika için link bulunmamaktadır.</p>
+    </div>
+</div>
+
+
+    <!-- Certificates Section -->
+<section id="certificates" class="certificates">
+    <h2>Sertifikalarım</h2>
+    <div class="certificate-cards">
+        {% for certificate in certificates %}
+        <div class="certificate-card fade-in" 
+            data-title="{{ certificate.title }}" 
+            data-desc="{{ certificate.description }}" 
+            data-img="{{ certificate.image.url }}" 
+            data-link="{{ certificate.link|default:'' }}" 
+            data-type="certificate"
+            data-issuer="{{ certificate.issuer }}"
+            data-year="{{ certificate.year }}">
+            <img src="{{ certificate.image.url }}" alt="{{ certificate.title }}">
+            <h3>{{ certificate.title }}</h3>
+            <p class="organization-year">{{ certificate.organization }} / {{ certificate.year }}</p>
+</div>
+        {% endfor %}
+    </div>
+</section>
+
+
+    <!-- Contact Section -->
+<section id="contact" class="contact">
+    <h2>Bana Ulaşın</h2>
+    {% if messages %}
+      {% for message in messages %}
+        <p style="color:green">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+    <form method="POST" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Adınız" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Mesajınız" required></textarea>
+        <button type="submit">Gönder</button>
+    </form>
+</section>
+
+    <!-- Footer -->
+<footer>
+    <p>© 2025 Ceren Kaleoğlu | Tüm Hakları Saklıdır.</p>
+</footer>
+
+
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    {% if messages %}
+        {% for message in messages %}
+            Swal.fire({
+                text: "{{ message|escapejs }}",
+                icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
+                confirmButtonText: 'Tamam',
+                timer: 5000
+            });
+        {% endfor %}
+    {% endif %}
+});
+</script>
+    <!-- JS -->
+    <script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
